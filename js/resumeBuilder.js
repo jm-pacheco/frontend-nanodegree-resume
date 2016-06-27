@@ -4,11 +4,11 @@ This is empty on purpose! Your code to build the resume will go here.
 
 
 var bio = {
-    "name" : "someone",
+    "name" : "someone funny",
     "age" : "20",
     "role" : "software engineer",
     "skills": ["hardworker", "awesomeness", "Engineer"],
-    "contact" : {
+    "contacts" : {
         "mobile": "666-666-666",
         "email": "someone@gmail.com",
         "github": "someone",
@@ -25,14 +25,14 @@ var work = {
         "employer" : "World Company",
         "title" : "Engineer",
         "years" : "2013-2014",
-        "city" : "Madrid",
+        "location" : "Madrid",
         "description": "Development"
     },
     {
         "employer" : "Universe Company",
         "title" : "Engineer",
         "years" : "2015-2016",
-        "city" : "Chicago",
+        "location" : "Chicago",
         "description" : "Management"
     }
     ]
@@ -44,13 +44,13 @@ var education = {
      "name" : "Street School",
      "degree" : "Engineer",
      "years" : "10",
-     "city" : "Madrid"
+     "location" : "Madrid"
     },
     {
      "name" : "City School",
      "years" : "10",
      "degree" : "Basic Studies",
-     "city" : "Madrid"
+     "location" : "Madrid"
     }
   ],
   "onlineCourser": [
@@ -70,7 +70,7 @@ var projects = {
         "dates":"2014",
         "description": "Build houses"
     }
-    ]
+    ]   
 };
 
 //$("#main").append(bio.age);
@@ -81,29 +81,31 @@ var projects = {
 //$("#main").append(work.position);
 //$("#main").append(education.name);
 
-var formattedName = HTMLheaderName.replace("%data%", bio.name);
-var formattedRole = HTMLheaderRole.replace("%data%", bio.role);
+var displayHeader = function() {
+    var formattedName = HTMLheaderName.replace("%data%", bio.name);
+    var formattedRole = HTMLheaderRole.replace("%data%", bio.role);
 
 
-$("#header").prepend(formattedRole);
-$("#header").prepend(formattedName);
+    $("#header").prepend(formattedRole);
+    $("#header").prepend(formattedName);
 
-$("#header").append(HTMLmobile.replace("%data%", bio.contact.mobile));
-$("#header").append(HTMLemail.replace("%data%", bio.contact.email));
-$("#header").append(HTMLtwitter.replace("%data%", bio.contact.twitter));
-$("#header").append(HTMLgithub.replace("%data%", bio.contact.github));
-$("#header").append(HTMLlocation.replace("%data%", bio.contact['location']));
+    $("#header").append(HTMLmobile.replace("%data%", bio.contacts.mobile));
+    $("#header").append(HTMLemail.replace("%data%", bio.contacts.email));
+    $("#header").append(HTMLtwitter.replace("%data%", bio.contacts.twitter));
+    $("#header").append(HTMLgithub.replace("%data%", bio.contacts.github));
+    $("#header").append(HTMLlocation.replace("%data%", bio.contacts['location']));
 
-$("#header").append(HTMLbioPic.replace("%data%", bio.bioPic));
-$("#header").append(HTMLwelcomeMsg.replace("%data%", bio.welcomeMessage));
-
-
+    $("#header").append(HTMLbioPic.replace("%data%", bio.bioPic));
+    $("#header").append(HTMLwelcomeMsg.replace("%data%", bio.welcomeMessage));
 
 
-if (bio.skills.length > 0){
-    $("#header").append(HTMLskillsStart);
-    for (skillIdx in bio.skills){
-        $("#skills").append(HTMLskills.replace("%data%", bio.skills[skillIdx]));
+
+
+    if (bio.skills.length > 0){
+        $("#header").append(HTMLskillsStart);
+        for (skillIdx in bio.skills){
+            $("#skills").append(HTMLskills.replace("%data%", bio.skills[skillIdx]));
+        }
     }
 }
 
@@ -127,6 +129,43 @@ function displayWork() {
 
 }
 
+
+displayHeader();
 displayWork();
+
+
+
+function inName(name) {
+    var finalName = name;
+
+    var tokens = finalName.trim().split(" ");
+    var firstName = tokens[0].slice(0,1).toUpperCase() + tokens[0].slice(1).toLowerCase();
+    var lastName = tokens[1].toUpperCase();
+
+    finalName = firstName + " " + lastName;
+
+    // Don't delete this line!
+    return finalName;
+};
+
+projects.display = function(){
+    $("#projects").append(HTMLprojectStart);
+
+    for (project in projects.projects) {
+        var formattedTitle = HTMLprojectTitle.replace("%data%", projects.projects[project].title);
+        var formattedDates = HTMLprojectDates.replace("%data%", projects.projects[project].dates);
+        var formattedDescription = HTMLprojectDescription.replace("%data%", projects.projects[project].description);
+        $(".project-entry:last").append(formattedTitle);
+        $(".project-entry:last").append(formattedDates);
+        $(".project-entry:last").append(formattedDescription);
+        }
+}
+
+projects.display();
+$("#main").append(internationalizeButton);
+
+$("#mapDiv").append(googleMap);
+
+
 
 
